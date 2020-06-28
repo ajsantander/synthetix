@@ -5,7 +5,13 @@
 	"AddressResolver": {
 		"deploy": true
 	},
-	"ArbRewarder": {
+	"ReadProxyAddressResolver": {
+		"deploy": true
+	},
+	"BinaryOptionMarketFactory": {
+		"deploy": true
+	},
+	"BinaryOptionMarketManager": {
 		"deploy": true
 	},
 	"Depot": {
@@ -45,6 +51,12 @@
 		"deploy": true
 	},
 	"IssuanceEternalStorage": {
+		"deploy": true
+	},
+	"EternalStorageLiquidations": {
+		"deploy": true
+	},
+	"Liquidations": {
 		"deploy": true
 	},
 	"SupplySchedule": {
@@ -93,6 +105,9 @@
 		"deploy": true
 	},
 	"ProxyERC20": {
+		"deploy": true
+	},
+	"ProxyERC20sUSD": {
 		"deploy": true
 	},
 	"ProxyFeePool": {

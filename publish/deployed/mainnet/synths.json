@@ -86,14 +86,6 @@
 		"subclass": "PurgeableSynth"
 	},
 	{
-		"name": "sMKR",
-		"asset": "MKR",
-		"category": "crypto",
-		"sign": "",
-		"desc": "Maker",
-		"subclass": "PurgeableSynth"
-	},
-	{
 		"name": "sTRX",
 		"asset": "TRX",
 		"category": "crypto",
@@ -129,6 +121,66 @@
 		"category": "crypto",
 		"sign": "",
 		"desc": "Chainlink"
+	},
+	{
+		"name": "sEOS",
+		"asset": "EOS",
+		"category": "crypto",
+		"sign": "",
+		"desc": "EOS"
+	},
+	{
+		"name": "sBCH",
+		"asset": "BCH",
+		"category": "crypto",
+		"sign": "",
+		"desc": "Bitcoin Cash"
+	},
+	{
+		"name": "sETC",
+		"asset": "ETC",
+		"category": "crypto",
+		"sign": "",
+		"desc": "Ethereum Classic"
+	},
+	{
+		"name": "sDASH",
+		"asset": "DASH",
+		"category": "crypto",
+		"sign": "",
+		"desc": "Dash"
+	},
+	{
+		"name": "sXMR",
+		"asset": "XMR",
+		"category": "crypto",
+		"sign": "",
+		"desc": "Monero"
+	},
+	{
+		"name": "sADA",
+		"asset": "ADA",
+		"category": "crypto",
+		"sign": "",
+		"desc": "Cardano"
+	},
+	{
+		"name": "sFTSE",
+		"asset": "FTSE100",
+		"category": "equities",
+		"sign": "",
+		"exchange": "LSE",
+		"desc": "FTSE 100 Index",
+		"aggregator": "0x16924ae9C2ac6cdbC9D6bB16FAfCD38BeD560936"
+	},
+	{
+		"name": "sNIKKEI",
+		"asset": "NIKKEI225",
+		"category": "equities",
+		"sign": "",
+		"exchange": "TSE",
+		"desc": "Nikkei 225 Index",
+		"aggregator": "0x3f6E09A4EC3811765F5b2ad15c0279910dbb2c04"
 	},
 	{
 		"name": "sCEX",
@@ -228,9 +280,9 @@
 		"desc": "Inverse Bitcoin",
 		"subclass": "PurgeableSynth",
 		"inverted": {
-			"entryPoint": 5275.0,
-			"upperLimit": 7912.5,
-			"lowerLimit": 2637.5
+			"entryPoint": 9659,
+			"upperLimit": 14488.5,
+			"lowerLimit": 4829.5
 		}
 	},
 	{
@@ -241,9 +293,9 @@
 		"desc": "Inverse Ether",
 		"subclass": "PurgeableSynth",
 		"inverted": {
-			"entryPoint": 122.43,
-			"upperLimit": 183.645,
-			"lowerLimit": 61.215
+			"entryPoint": 180.16,
+			"upperLimit": 315.28,
+			"lowerLimit": 45.04
 		}
 	},
 	{
@@ -254,22 +306,9 @@
 		"desc": "Inverse Binance Coin",
 		"subclass": "PurgeableSynth",
 		"inverted": {
-			"entryPoint": 10.19,
-			"upperLimit": 15.285,
-			"lowerLimit": 5.095
-		}
-	},
-	{
-		"name": "iMKR",
-		"asset": "MKR",
-		"category": "crypto",
-		"sign": "",
-		"desc": "Inverse Maker",
-		"subclass": "PurgeableSynth",
-		"inverted": {
-			"entryPoint": 550,
-			"upperLimit": 825,
-			"lowerLimit": 275
+			"entryPoint": 16.13,
+			"upperLimit": 24.195,
+			"lowerLimit": 8.065
 		}
 	},
 	{
@@ -280,9 +319,9 @@
 		"desc": "Inverse TRON",
 		"subclass": "PurgeableSynth",
 		"inverted": {
-			"entryPoint": 0.0101651,
-			"upperLimit": 0.0152476,
-			"lowerLimit": 0.0050825
+			"entryPoint": 0.0159000,
+			"upperLimit": 0.0238500,
+			"lowerLimit": 0.0079500
 		}
 	},
 	{
@@ -293,9 +332,9 @@
 		"desc": "Inverse Tezos",
 		"subclass": "PurgeableSynth",
 		"inverted": {
-			"entryPoint": 1.49,
-			"upperLimit": 2.235,
-			"lowerLimit": 0.745
+			"entryPoint": 2.27,
+			"upperLimit": 3.405,
+			"lowerLimit": 1.135
 		}
 	},
 	{
@@ -306,9 +345,9 @@
 		"desc": "Inverse Ripple",
 		"subclass": "PurgeableSynth",
 		"inverted": {
-			"entryPoint": 0.15,
-			"upperLimit": 0.225,
-			"lowerLimit": 0.075
+			"entryPoint": 0.1883,
+			"upperLimit": 0.282,
+			"lowerLimit": 0.094
 		}
 	},
 	{
@@ -319,9 +358,9 @@
 		"desc": "Inverse Chainlink",
 		"subclass": "PurgeableSynth",
 		"inverted": {
-			"entryPoint": 2.02,
-			"upperLimit": 3.03,
-			"lowerLimit": 1.01
+			"entryPoint": 3.66,
+			"upperLimit": 5.49,
+			"lowerLimit": 1.83
 		}
 	},
 	{
@@ -335,6 +374,84 @@
 			"entryPoint": 35.66,
 			"upperLimit": 53.49,
 			"lowerLimit": 17.83
+		}
+	},
+	{
+		"name": "iEOS",
+		"asset": "EOS",
+		"category": "crypto",
+		"sign": "",
+		"desc": "Inverse EOS",
+		"subclass": "PurgeableSynth",
+		"inverted": {
+			"entryPoint": 2.22,
+			"upperLimit": 3.33,
+			"lowerLimit": 1.11
+		}
+	},
+	{
+		"name": "iBCH",
+		"asset": "BCH",
+		"category": "crypto",
+		"sign": "",
+		"desc": "Inverse Bitcoin Cash",
+		"subclass": "PurgeableSynth",
+		"inverted": {
+			"entryPoint": 218.33,
+			"upperLimit": 327.495,
+			"lowerLimit": 109.165
+		}
+	},
+	{
+		"name": "iETC",
+		"asset": "ETC",
+		"category": "crypto",
+		"sign": "",
+		"desc": "Inverse Ethereum Classic",
+		"subclass": "PurgeableSynth",
+		"inverted": {
+			"entryPoint": 6.1600,
+			"upperLimit": 9.240,
+			"lowerLimit": 3.080
+		}
+	},
+	{
+		"name": "iDASH",
+		"asset": "DASH",
+		"category": "crypto",
+		"sign": "",
+		"desc": "Inverse Dash",
+		"subclass": "PurgeableSynth",
+		"inverted": {
+			"entryPoint": 64.44,
+			"upperLimit": 96.66,
+			"lowerLimit": 32.22
+		}
+	},
+	{
+		"name": "iXMR",
+		"asset": "XMR",
+		"category": "crypto",
+		"sign": "",
+		"desc": "Inverse Monero",
+		"subclass": "PurgeableSynth",
+		"inverted": {
+			"entryPoint": 47.24,
+			"upperLimit": 70.86,
+			"lowerLimit": 23.62
+		}
+	},
+	{
+		"name": "iADA",
+		"asset": "ADA",
+		"category": "crypto",
+		"sign": "",
+		"desc": "Inverse Cardano",
+		"subclass": "PurgeableSynth",
+		"inverted": {
+			"entryPoint": 0.080,
+			"upperLimit": 0.120,
+			"lowerLimit": 0.040
 		}
 	},
 	{
@@ -360,9 +477,9 @@
 		"desc": "Inverse DeFi Index",
 		"subclass": "PurgeableSynth",
 		"inverted": {
-			"entryPoint": 1000,
-			"upperLimit": 1500,
-			"lowerLimit": 500
+			"entryPoint": 1817,
+			"upperLimit": 2725.500,
+			"lowerLimit": 908.500
 		}
 	}
 ]

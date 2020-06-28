@@ -6,14 +6,10 @@ const { gray, green, red } = require('chalk');
 const { table } = require('table');
 const axios = require('axios');
 const qs = require('querystring');
-const solc = require('solc');
 
 const {
-	BUILD_FOLDER,
-	FLATTENED_FOLDER,
-	CONFIG_FILENAME,
-	DEPLOYMENT_FILENAME,
-} = require('../constants');
+	constants: { BUILD_FOLDER, FLATTENED_FOLDER, CONFIG_FILENAME, DEPLOYMENT_FILENAME },
+} = require('../../..');
 
 const {
 	ensureNetwork,
@@ -26,6 +22,9 @@ const CONTRACT_OVERRIDES = require('../contract-overrides');
 const { optimizerRuns } = require('./build').DEFAULTS;
 
 const verify = async ({ buildPath, network, deploymentPath }) => {
+	// Note: require this here as silent error is detected on require that impacts pretty-error
+	const solc = require('solc');
+
 	ensureNetwork(network);
 
 	const { config, deployment, deploymentFile } = loadAndCheckRequiredSources({
@@ -91,8 +90,8 @@ const verify = async ({ buildPath, network, deploymentPath }) => {
 
 			fs.writeFileSync(deploymentFile, stringify(deployment));
 
-			// Grab the last 50 characters of the compiled bytecode
-			const compiledBytecode = deployment.sources[source].bytecode.slice(-100);
+			// Grab the last 150 characters of the compiled bytecode
+			const compiledBytecode = deployment.sources[source].bytecode.slice(-150);
 
 			const pattern = new RegExp(`${compiledBytecode}(.*)$`);
 			if (!pattern.test(deployedBytecode)) {
@@ -130,7 +129,7 @@ const verify = async ({ buildPath, network, deploymentPath }) => {
 						}
 						return (
 							`\nThe proxy for this contract can be found here:\n\n` +
-							`https://contracts.synthetix.io/${
+							`https://contracts.synthetix.io/${network !== 'mainnet' ? network + '/' : ''}${
 								name === 'Synthetix' ? 'ProxyERC20' : 'Proxy' + name
 							}`
 						);

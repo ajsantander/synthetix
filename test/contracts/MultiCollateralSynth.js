@@ -1,58 +1,40 @@
-require('.'); // import common test scaffolding
+'use strict';
 
-const FeePool = artifacts.require('FeePool');
-const AddressResolver = artifacts.require('AddressResolver');
-const Synthetix = artifacts.require('Synthetix');
+const { artifacts, contract, web3 } = require('@nomiclabs/buidler');
+
+const { assert, addSnapshotBeforeRestoreAfterEach } = require('./common');
+
 const MultiCollateralSynth = artifacts.require('MultiCollateralSynth');
-const TokenState = artifacts.require('TokenState');
-const Proxy = artifacts.require('Proxy');
 
+const { onlyGivenAddressCanInvoke, ensureOnlyExpectedMutativeFunctions } = require('./helpers');
+const { toUnit } = require('../utils')();
 const {
-	onlyGivenAddressCanInvoke,
-	ensureOnlyExpectedMutativeFunctions,
-} = require('../utils/setupUtils');
-const { toUnit, ZERO_ADDRESS } = require('../utils/testUtils');
-const { toBytes32 } = require('../..');
+	toBytes32,
+	constants: { ZERO_ADDRESS },
+} = require('../..');
+
+const { setupAllContracts } = require('./setup');
 
 contract('MultiCollateralSynth', accounts => {
-	const [
-		deployerAccount,
-		owner, // Oracle next, is not needed
-		,
-		,
-		account1,
-	] = accounts;
+	const [deployerAccount, owner, , , account1] = accounts;
 
-	let feePool,
-		feePoolProxy,
-		// FEE_ADDRESS,
-		synthetix,
-		synthetixProxy,
-		resolver;
+	let issuer, resolver;
 
-	beforeEach(async () => {
-		// Save ourselves from having to await deployed() in every single test.
-		// We do this in a beforeEach instead of before to ensure we isolate
-		// contract interfaces to prevent test bleed.
-		feePool = await FeePool.deployed();
-		// Deploy new proxy for feePool
-		feePoolProxy = await Proxy.new(owner, { from: deployerAccount });
-
-		synthetix = await Synthetix.deployed();
-		// Deploy new proxy for Synthetix
-		synthetixProxy = await Proxy.new(owner, { from: deployerAccount });
-
-		resolver = await AddressResolver.deployed();
-
-		// ensure synthetixProxy has target set to synthetix
-		await feePool.setProxy(feePoolProxy.address, { from: owner });
-		await synthetix.setProxy(synthetixProxy.address, { from: owner });
-		// set new proxies on Synthetix and FeePool
-		await synthetixProxy.setTarget(synthetix.address, { from: owner });
-		await feePoolProxy.setTarget(feePool.address, { from: owner });
+	before(async () => {
+		({ AddressResolver: resolver, Issuer: issuer } = await setupAllContracts({
+			accounts,
+			mocks: { FeePool: true },
+			contracts: ['AddressResolver', 'Synthetix', 'Issuer'],
+		}));
 	});
 
+	addSnapshotBeforeRestoreAfterEach();
+
 	const deploySynth = async ({ currencyKey, proxy, tokenState, multiCollateralKey }) => {
+		// As either of these could be legacy, we require them in the testing context (see buidler.config.js)
+		const TokenState = artifacts.require('TokenState');
+		const Proxy = artifacts.require('Proxy');
+
 		tokenState =
 			tokenState ||
 			(await TokenState.new(owner, ZERO_ADDRESS, {
@@ -90,7 +72,7 @@ contract('MultiCollateralSynth', accounts => {
 			});
 			await tokenState.setAssociatedContract(synth.address, { from: owner });
 			await proxy.setTarget(synth.address, { from: owner });
-			await synthetix.addSynth(synth.address, { from: owner });
+			await issuer.addSynth(synth.address, { from: owner });
 			this.synth = synth;
 		});
 
@@ -103,7 +85,7 @@ contract('MultiCollateralSynth', accounts => {
 		});
 
 		it('ensure the list of resolver addresses are as expected', async () => {
-			const actual = await this.synth.getResolverAddresses();
+			const actual = await this.synth.getResolverAddressesRequired();
 			assert.deepEqual(
 				actual,
 				['SystemStatus', 'Synthetix', 'Exchanger', 'Issuer', 'FeePool', 'EtherCollateral']
@@ -154,6 +136,23 @@ contract('MultiCollateralSynth', accounts => {
 						await this.synth.balanceOf(accountToIssue),
 						balanceOfBefore.add(issueAmount)
 					);
+				});
+			});
+			describe('when multiCollateral tries to burn', () => {
+				it('then it can burn synths', async () => {
+					const totalSupplyBefore = await this.synth.totalSupply();
+					const balanceOfBefore = await this.synth.balanceOf(account1);
+					const amount = toUnit('1');
+
+					await this.synth.issue(account1, amount, { from: owner });
+
+					assert.bnEqual(await this.synth.totalSupply(), totalSupplyBefore.add(amount));
+					assert.bnEqual(await this.synth.balanceOf(account1), balanceOfBefore.add(amount));
+
+					await this.synth.burn(account1, amount, { from: owner });
+
+					assert.bnEqual(await this.synth.totalSupply(), totalSupplyBefore);
+					assert.bnEqual(await this.synth.balanceOf(account1), balanceOfBefore);
 				});
 			});
 			describe('when synthetix set to account1', () => {
